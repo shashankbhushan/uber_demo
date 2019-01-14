@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    ext.rxDependencies = {
+        implementation "io.reactivex.rxjava2:rxkotlin:$config.rxKotlin"
+        implementation "io.reactivex.rxjava2:rxandroid:$config.rxAndroid"
+    }
+    ext.others = {
+        implementation "com.google.code.gson:gson:$config.gson"
+        implementation "com.jakewharton.timber:timber:$config.timber"
+    }
+    ext.daggerDependencies = {
+        implementation "com.google.dagger:dagger-android:$config.dagger"
+        implementation "com.google.dagger:dagger-android-support:$config.dagger"
+        kapt "com.google.dagger:dagger-compiler:$config.dagger"
+        kapt "com.google.dagger:dagger-android-processor:$config.dagger"
+    }
+    ext.test = {
+        testImplementation "junit:junit:$config.junit"
+        androidTestImplementation "com.android.support.test:runner:$config.test_runner"
+        androidTestImplementation "com.android.support.test.espresso:espresso-core:$config.espresso_core"
+        testImplementation "org.assertj:assertj-guava:3.2.0"
+        testImplementation "org.mockito:mockito-inline:$config.mockito_version"
+        testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$config.mockito_kotlin"
+    }
+    rxDependencies()
+    others()
+    daggerDependencies()
+    test()
+}

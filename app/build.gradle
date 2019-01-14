@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt' //Annotation processors (see JSR 269) are supported in Kotlin with the kapt compiler plugin.
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId appConfig.applicationId
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVerison
+        versionCode appConfig.versionCode
+        versionName appConfig.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        resConfigs "en", "hi"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation project(path: ':domain')
+    implementation project(path: ':data')
+    implementation project(path: ':device')
+
+    ext.jarFileDependencies = {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+    }
+    ext.kotlinDependencies = {
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    }
+    ext.jetpackDependecies = {
+        implementation "com.android.support:multidex:$config.multiDex"
+        //https://developer.android.com/studio/build/multidex
+        implementation "android.arch.lifecycle:extensions:$config.lifecycle"
+        implementation "android.arch.lifecycle:viewmodel:$config.lifecycle"
+        implementation "com.android.support:appcompat-v7:$config.appCompat"
+        implementation "com.android.support:design:$config.appCompat"
+        implementation "com.android.support.constraint:constraint-layout:$config.constraintLayout"
+        implementation "com.android.support:cardview-v7:$config.appCompat"
+    }
+    ext.networkDependencies = {
+        implementation "com.squareup.retrofit2:retrofit:$config.retrofit"
+        implementation "com.squareup.okhttp3:okhttp:$config.okHttp"
+        implementation "com.google.code.gson:gson:$config.gson"
+        implementation 'com.facebook.stetho:stetho:1.5.0' // ask how this is used ????
+        implementation "com.github.bumptech.glide:glide:$config.glide"
+        kapt "com.github.bumptech.glide:compiler:$config.glide"// why two dependency added over here? and above ??????
+    }
+    ext.daggerDependencies = {
+        implementation "com.google.dagger:dagger-android:$config.dagger"
+        implementation "com.google.dagger:dagger-android-support:$config.dagger"
+        kapt "com.google.dagger:dagger-compiler:$config.dagger"// why two dependency added over here? and above ??????
+        kapt "com.google.dagger:dagger-android-processor:$config.dagger"
+    }
+    ext.rxDependencies = {
+        implementation "io.reactivex.rxjava2:rxkotlin:$config.rxKotlin"
+        implementation "io.reactivex.rxjava2:rxandroid:$config.rxAndroid"
+        implementation "com.jakewharton.rxbinding2:rxbinding:$config.rxBinding"
+    }
+    ext.testDependencies = {
+        testImplementation 'junit:junit:4.12'
+        testImplementation "org.mockito:mockito-inline:$config.mockito_version"
+        testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$config.mockito_kotlin"//why is this used, is it just for kotlin support???????
+        androidTestImplementation 'com.android.support.test:runner:1.0.2'
+        androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+        androidTestImplementation 'com.android.support.test.espresso:espresso-intents:3.0.2'
+    }
+    ext.others = {
+        implementation "com.jakewharton.timber:timber:$config.timber"// why how this is used ????
+//        implementation "androidx.recyclerview:recyclerview:1.0.0"
+        implementation 'org.greenrobot:eventbus:3.1.1'
+    }
+    kotlinDependencies()
+    jetpackDependecies()
+    jarFileDependencies()
+    testDependencies()
+    networkDependencies()
+    daggerDependencies()
+    rxDependencies()
+    others()
+    compile "org.jetbrains.kotlin:kotlin-reflect:1.3.0"
+
+}

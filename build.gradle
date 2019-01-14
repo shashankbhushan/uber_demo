@@ -1,0 +1,67 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.2.71'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+    ext {
+        //Configs are in alphabetical order
+        appConfig = [
+                applicationId: 'test.interview.uber.com.demouber',
+                appName: 'TestDrive',
+                versionCode: 1,
+                versionName: '1.0'
+        ]
+
+        config = [
+                appCompat: '28.0.0',
+                compileSdkVersion: 28,
+                constraintLayout: '1.1.2',
+                dagger: '2.16',
+                glide: '4.8.0',
+                gson : '2.8.5',
+                lifecycle: '1.1.1',
+                minSdkVersion: 16,
+                multiDex: '1.0.3',
+                okHttp: '3.11.0',
+                retrofit: '2.4.0',
+                rxAndroid: '2.0.2',
+                rxKotlin : '2.2.0',
+                rxBinding :'2.2.0',
+                rxPermission: '0.10.2',
+                targetSdkVerison: 27,
+                timber: '4.7.1',
+                test_runner : '1.0.2',
+                espresso_core : '3.0.2',
+                junit:'4.12',
+                youtube_api_key: 'AIzaSyDB_hVH9yrqBT1Vj-6t9VOQxOVUPsA6QIU',
+                mockito_version : '2.22.0',
+                mockito_kotlin : '2.0.0-RC1',
+                facebook_shimmer : '0.3.0',
+                amplitude_sdk_version : '2.16.0',
+                evnetbus_sdk_version : '3.1.1',
+                firebase_core        : '16.0.1',
+                firebase_messaging   : '17.1.0'
+        ]
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
