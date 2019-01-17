@@ -14,7 +14,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import test.interview.uber.com.data.BuildConfig
 import test.interview.uber.com.data.constants.Urls
 import test.interview.uber.com.data.services.ApiService
-import test.interview.uber.com.data.util.HeaderInterceptor
 import test.interview.uber.com.domain.repository.PreferenceRepository
 import timber.log.Timber
 import javax.inject.Singleton
@@ -24,7 +23,6 @@ class NetworkModule{
     @Provides
     fun provideOkHttpClient(preferenceUtils: PreferenceRepository): OkHttpClient {
         val okHttpBuilder =  OkHttpClient.Builder()
-        okHttpBuilder.addInterceptor(HeaderInterceptor(preferenceUtils))
         if(BuildConfig.DEBUG) {
             okHttpBuilder.addNetworkInterceptor(StethoInterceptor())
             val loggingInterceptor = HttpLoggingInterceptor(HttpLoggingInterceptor.Logger { message -> Timber.i(message) })
